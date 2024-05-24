@@ -1,27 +1,55 @@
 const express = require('express')
-const { Show, User } = require('../models/index.js')
-
 const router = express.Router()
+const { Show } = require('../models')
+const { check, validationResult } = require('express-validator')
 
-// completed //
-
-router.get('/', async function (request, response) {
+// GET /shows
+router.get('/', async (req, res) => {
     const shows = await Show.findAll()
-        response.json(shows)
-})
-
-// completed //
-
-router.get('/:id', async function (req, res) {
-    const number = req.params.id
-    const shows = await Show.findByPk(number)
     res.json(shows)
 })
 
-// router.put('/:showId/watched', async function (req, res) {})
+// GET /shows/:id
+router.get('/:id', async (req, res) => {
+    const show = await Show.findByPk(req.params.id)
+    res.json(show)
+})
 
-// router.put('/:showId/updates', async function (req, res) {})
+// GET shows of a particular genre
+router.get('/genre/:genre', async (req, res) => {
+    const shows = await Show.findAll({ where: { genre: req.params.genre } })
+    res.json(shows)
+})
 
-// router.delete('/:showId', async function (req, res) {})
+// // PUT update rating of a show
+// router.put('/:id/rating', [check('rating').notEmpty(options = { ignore_whitespace: true }).isInt()], async (req, res) => {
+//     const errors = validationResult(req);
+//     const show = await Show.findByPk(req.params.id)
+//     if (errors.isEmpty()) {
+//         if (show) {
+//             show.rating = req.body.rating
+//             await show.save()
+//             res.json(show)
+//         } else {
+//             res.status(404).send('Not found')
+//         };
+//     } else {
+//         res.status(400).json({ errors: errors.array() })
+// }
+// })
+
+// PUT update available param> url
+// router.put('/:id/status', async (req, res) => {
+//     show = await Show.findByPk(req.params.id)
+//         show.available = !show.available
+//         await Show.save()
+//         res.json(show)
+// })
+
+// DELETE a show
+router.delete('shows/:id', async (req, res) => {
+    const deletedRest = await Show.destroy({ where: { id: req.params.id } })
+    res.json(deletedRest)
+})
 
 module.exports = router

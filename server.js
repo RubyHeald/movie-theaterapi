@@ -5,6 +5,8 @@ const showRoutes = require('./routes/shows.js')
 const app = express()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 app.use('/users', userRoutes)
 app.use('/shows', showRoutes)
 

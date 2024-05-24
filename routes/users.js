@@ -18,10 +18,19 @@ router.get('/:id', async function (req, res) {
     res.json(users)
 })
 
-// not connecting to the server //
-router.get('/:id/shows', async function (req, res) {
-    const user = await User.findByPk(req.params.id, { include: Show })
-    res.json(user.shows)
+// completed //
+
+router.put('users/:id', async function (req, res) {
+    const updatedRest = await User.update(req.body, { where: { id: req.params.id } })
+    res.json(updatedRest)
+})
+
+// compelted //
+router.put('/:id/shows/:showid', async function (req, res) {
+    const user = await User.findByPk(req.params.userid)
+    const show = await Show.findByPk(req.params.showid)
+    await user.addShow(show)
+    res.json('Show Updated!')
 })
 
 module.exports = router
