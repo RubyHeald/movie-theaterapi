@@ -2,12 +2,10 @@
 const { db, DataTypes } = require('../db/connection')
 
 // Creating a User child class from the Model parent class
-const Show = db.define('shows', {
-  title: DataTypes.STRING,
-  genre: DataTypes.STRING,
-  rating: DataTypes.INTEGER,
-  available: DataTypes.BOOLEAN
+const User = db.define('users', {
+  username: DataTypes.STRING,
+  password: DataTypes.STRING
 })
 
 // exports
-module.exports = Show
+module.exports = User
