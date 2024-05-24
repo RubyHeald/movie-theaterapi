@@ -3,12 +3,25 @@ const { User, Show } = require('../models/index.js')
 
 const router = express.Router()
 
-router.get('/', async function (req, res) {})
+// completed //
 
-router.get('/:userId', async function (req, res) {})
+router.get('/', async function (request, response) {
+    const users = await User.findAll()
+        response.json(users)
+})
 
-router.get('/:userId/shows', async function (req, res) {})
+// completed //
 
-router.put('/:userId/shows/:showId', async function (req, res) {})
+router.get('/:id', async function (req, res) {
+    const number = req.params.id
+    const users = await User.findByPk(number)
+    res.json(users)
+})
+
+// not connecting to the server //
+router.get('/:id/shows', async function (req, res) {
+    const user = await User.findByPk(req.params.id, { include: Show })
+    res.json(user.shows)
+})
 
 module.exports = router

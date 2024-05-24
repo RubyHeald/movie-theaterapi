@@ -3,16 +3,25 @@ const { Show, User } = require('../models/index.js')
 
 const router = express.Router()
 
-router.get('/', async function (req, res) {})
+// completed //
 
-router.get('/:showId', async function (req, res) {})
+router.get('/', async function (request, response) {
+    const shows = await Show.findAll()
+        response.json(shows)
+})
 
-router.get('/genres/:genre', async function (req, res) {})
+// completed //
 
-router.put('/:showId/watched', async function (req, res) {})
+router.get('/:id', async function (req, res) {
+    const number = req.params.id
+    const shows = await Show.findByPk(number)
+    res.json(shows)
+})
 
-router.put('/:showId/updates', async function (req, res) {})
+// router.put('/:showId/watched', async function (req, res) {})
 
-router.delete('/:showId', async function (req, res) {})
+// router.put('/:showId/updates', async function (req, res) {})
+
+// router.delete('/:showId', async function (req, res) {})
 
 module.exports = router
